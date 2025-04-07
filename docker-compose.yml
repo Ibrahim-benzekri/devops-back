@@ -1,0 +1,36 @@
+services:
+  db:
+    container_name: pg-docker
+    image: postgres
+    environment:
+      POSTGRES_USER: username
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: db_pg
+    volumes:
+      - db:/var/lib/postgresql/data
+    ports:
+      - "5332:5432"
+    networks:
+      - devops-network
+
+  spring-boot-app:
+    build: .
+    container_name: devops-backend
+    networks:
+      - devops-network
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://pg-docker:5432/db_pg
+      SPRING_DATASOURCE_USERNAME: username
+      SPRING_DATASOURCE_PASSWORD: password
+
+networks:
+  devops-network:
+    driver: bridge
+
+
+volumes:
+  db:
