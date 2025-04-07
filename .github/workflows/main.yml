@@ -1,0 +1,70 @@
+name: Build and Deploy
+
+on:
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:latest
+        env:
+          POSTGRES_USER: username
+          POSTGRES_PASSWORD: password
+          POSTGRES_DB: pg-db-tests
+        ports:
+          - 5532:5432
+        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+
+    steps:
+      - name: checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup JDK 17
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'corretto'
+          java-version: 17
+
+      - name: Unit Tests
+        run: mvn -B test --file pom.xml
+        env:
+          SPRING_DATASOURCE_URL: jdbc:postgresql://localhost:5532/pg-db-tests
+          SPRING_DATASOURCE_USERNAME: username
+          SPRING_DATASOURCE_PASSWORD: password
+
+      - name: build app
+        run: |
+          mvn clean
+          mvn -B package --file pom.xml
+        env:
+          SPRING_DATASOURCE_URL: jdbc:postgresql://localhost:5532/pg-db-tests
+          SPRING_DATASOURCE_USERNAME: username
+          SPRING_DATASOURCE_PASSWORD: password
+
+
+
+      - name: Build Docker Image
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          push: false
+          tags: ${{secrets.DOCKER_HUB_USERNAME}}/devops-backend:${{ github.run_number }}
+
+      - name: Login to dockerhub
+        uses: docker/login-action@v1
+        with:
+          username: ${{secrets.DOCKER_HUB_USERNAME}}
+          password: ${{secrets.DOCKER_HUB_ACCESS_TOKEN}}
+
+      - name: Push to dockerhub
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          push: true
+          tags: ${{secrets.DOCKER_HUB_USERNAME}}/devops-backend:${{ github.run_number }}
