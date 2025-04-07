@@ -1,7 +1,6 @@
 package com.iba.auth;
 
 import com.iba.Config.JwtService;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,12 +10,16 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/api/v1/auth")
 @CrossOrigin(origins = "http://localhost:3000")
-@RequiredArgsConstructor
 public class AuthenticationController {
-    @Autowired
+
     private final AuthenticationService authenticationService;
-    @Autowired
     private JwtService jwtService;
+
+    @Autowired
+    public AuthenticationController(AuthenticationService authenticationService, JwtService jwtService) {
+        this.authenticationService = authenticationService;
+        this.jwtService = jwtService;
+    }
 
 
     @PostMapping("/valide")
