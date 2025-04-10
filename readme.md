@@ -40,7 +40,7 @@ il est possible aussi de lancer l'application sans Docker Compose. Il te faudra 
     Port : 5432
 
 Assure-toi que ces informations sont bien configurées dans application.properties.
-▶ Ensuite :
+ Ensuite :
 
 Compile et exécute le projet via Maven ou ton IDE .
 
@@ -69,7 +69,7 @@ Ce projet tire pleinement parti de l’écosystème Docker :
  
 - Publication automatique de l’image sur Docker Hub via GitHub Actions
 
-🛠️ Technologies utilisées
+### Technologies utilisées
 
 - Java 17
 
