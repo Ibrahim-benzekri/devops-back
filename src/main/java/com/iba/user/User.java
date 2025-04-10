@@ -1,6 +1,7 @@
 package com.iba.user;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.iba.Game.GameParty;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.context.annotation.Bean;
@@ -29,6 +30,8 @@ public class User implements UserDetails {
     @JsonIgnore
     private String password;
 
+    @OneToMany(mappedBy = "user")
+    List<GameParty> parties ;
 
 
     public User(long id, String firstname, String lastname, String mail, String password) {
