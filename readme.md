@@ -25,6 +25,8 @@ La manière la plus simple de lancer l'application est d’utiliser Docker Compo
 ```bash
 docker-compose up
 ```
+Le docker compose comprend aussi l'image du front end, donc la totalité de l'application.
+! NB: il faut changer le tag de l'image front end dans le docker compose pour avoir la derniere version, jusqu'a present, la dernier version est la 5éme.
 
 ### Option 2 : Lancement en local
 
