@@ -28,7 +28,7 @@ public class GameController {
         }
     }
 
-    @GetMapping("/historique")
+    @PostMapping("/historique")
     public ResponseEntity<?> getHistorique(@RequestBody historyRequest request) {
         try {
             HistoryResponseGlobal resp =  gameService.getHistory(request.email);

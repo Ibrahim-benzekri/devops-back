@@ -27,6 +27,17 @@ services:
       SPRING_DATASOURCE_USERNAME: username
       SPRING_DATASOURCE_PASSWORD: password
 
+  devops-frontend:
+    container_name: devops-frontend
+    image: ibaibrahim/devops-frontend
+    ports:
+      - "3000:3000"
+    networks:
+      - devops-network
+    restart: unless-stopped
+    depends_on:
+      - spring-boot-app
+
 networks:
   devops-network:
     driver: bridge
