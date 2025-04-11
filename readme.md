@@ -25,6 +25,7 @@ La manière la plus simple de lancer l'application est d’utiliser Docker Compo
 ```bash
 docker-compose up
 ```
+Le docker compose comprend aussi l'image du front end, donc la totalité de l'application.
 
 ### Option 2 : Lancement en local
 
