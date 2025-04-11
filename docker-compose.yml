@@ -29,7 +29,7 @@ services:
 
   devops-frontend:
     container_name: devops-frontend
-    image: ibaibrahim/devops-frontend
+    image: ibaibrahim/devops-frontend:5
     ports:
       - "3000:3000"
     networks:
